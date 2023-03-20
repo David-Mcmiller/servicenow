@@ -1,24 +1,38 @@
 (function executeRule(current, previous /*null when async*/ ) {
 
     // Add your code here
-    gs.info('va ruleworks');
+    gs.info('op3 ruleworks');
     gs.sleep(5000);
-    gs.info('va documid==' + current.document_id);
-  
-		var gr2 = new GlideRecord('sc_req_item');
-		gr2.addQuery('sys_id', current.document_id);
-		gr2.query();
-		while (gr2.next()){
-			
-			gs.info('va item while working');
-			gr2.estimated_delivery = date;
-			gr2.update();
-			gs.info('va estimate delivery==' + gr.request_item.estimated_delivery);
-			
-		}
-       
-    
+    gs.info('op3 documid==' + current.document_id);
 
+
+    // gr.request_item.estimated_delivery.setDisplayValue(date);
+    var gr2 = new GlideRecord('sc_req_item');
+    gr2.addQuery('sys_id', current.document_id);
+    gr2.query();
+    while (gr2.next()) {
+        if(current.state =='approved'){
+        gs.info('op3 item while working');
+        gs.info('op3 currentapptime==' + current.sysapproval.approval_set.getDisplayValue());
+
+        var date = current.sysapproval.approval_set;
+		var date2 = new GlideDateTime(current.sysapproval.approval_set.getDisplayValue());
+		
+		gs.info('op3 date=' + date);
+		gs.info('op3 date2=' + date2);
+		
+        var days = 3;
+        var duration = new GlideDuration(60 * 60 * 8 * 1000 * days);
+        var schedule = new GlideSchedule('08fcd0830a0a0b2600079f56b1adb9ae');
+        var estDelivery = schedule.add(date2, duration);
+
+        gr2.estimated_delivery = estDelivery;
+        gr2.update();
+		gs.info('op3 approved days'+ date2);
+       gs.info('op3 Updated days'+ estDelivery);
+			}
+
+    }
 
 
 })(current, previous);
