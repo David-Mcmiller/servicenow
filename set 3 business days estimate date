@@ -1,0 +1,24 @@
+(function executeRule(current, previous /*null when async*/ ) {
+
+    // Add your code here
+    gs.info('va ruleworks');
+    gs.sleep(5000);
+    gs.info('va documid==' + current.document_id);
+  
+		var gr2 = new GlideRecord('sc_req_item');
+		gr2.addQuery('sys_id', current.document_id);
+		gr2.query();
+		while (gr2.next()){
+			
+			gs.info('va item while working');
+			gr2.estimated_delivery = date;
+			gr2.update();
+			gs.info('va estimate delivery==' + gr.request_item.estimated_delivery);
+			
+		}
+       
+    
+
+
+
+})(current, previous);
