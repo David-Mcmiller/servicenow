@@ -1,9 +1,9 @@
 (function executeRule(current, previous /*null when async*/ ) {
 
     // Add your code here
-   // gs.info('op3 ruleworks');
+    // gs.info('est ruleworks');
     gs.sleep(5000);
-   // gs.info('op3 documid==' + current.document_id);
+    //gs.info('est documid==' + current.document_id);
 
 
     // gr.request_item.estimated_delivery.setDisplayValue(date);
@@ -11,26 +11,26 @@
     gr2.addQuery('sys_id', current.document_id);
     gr2.query();
     while (gr2.next()) {
-        if(current.state =='approved'){
-//         gs.info('op3 item while working');
-//         gs.info('op3 currentapptime==' + current.sysapproval.approval_set.getDisplayValue());
+        if (current.state == 'approved') {
+            //         gs.info('op3 item while working');
+            //         gs.info('op3 currentapptime==' + current.sysapproval.approval_set.getDisplayValue());
 
-        //var date = current.sysapproval.approval_set;
-		var date2 = new GlideDateTime(current.sysapproval.approval_set.getDisplayValue());
-		
-// 		gs.info('op3 date=' + date);
-// 		gs.info('op3 date2=' + date2);
-		
-        var days = 3;
-        var duration = new GlideDuration(60 * 60 * 24 * 1000 * days);
-        var schedule = new GlideSchedule('08fcd0830a0a0b2600079f56b1adb9ae');
-        var estDelivery = schedule.add(date2, duration);
+            var date = current.sysapproval.approval_set;
+            var date2 = new GlideDateTime(current.sysapproval.approval_set);
 
-        gr2.estimated_delivery = estDelivery;
-        gr2.update();
-// 		gs.info('op3 approved days'+ date2);
-//        gs.info('op3 Updated days'+ estDelivery);
-			}
+            // gs.info('est date=' + date);
+            //gs.info('est date2=' + date2);
+            var days = 3;
+            var duration = new GlideDuration(60 * 60 * 24 * 1000 * days);
+            var sched = new GlideSchedule('08fcd0830a0a0b2600079f56b1adb9ae');
+            // gs.info(sched.getName());
+            var estDelivery = sched.add(date2, duration);
+            // gs.info('est==' + estDelivery);
+            gr2.estimated_delivery = estDelivery;
+            gr2.update();
+            // 		gs.info('op3 approved days'+ date2);
+            //        gs.info('op3 Updated days'+ estDelivery);
+        }
 
     }
 
