@@ -1,0 +1,9 @@
+//gs.info('wf works2');
+//gs.info('wf state2=' + current.state);
+if(current.approval=='approved'){
+    var estdate = new GlideDateTime(current.opened_at);
+    var estDelivery = new Populate_any_date_3_business_days().UpdateBusinessdays(estdate);
+    //gs.info('wf estDelivery==' + estDelivery );
+    current.estimated_delivery = estDelivery;
+    //current.update();
+}
