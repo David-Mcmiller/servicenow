@@ -1,0 +1,21 @@
+(function executeRule(current, previous /*null when async*/) { 
+var vmId= current.vm_inst_id; 
+var gr = new GlideRecord("cmdb_ci_endpoint_vnic");
+gr.addQuery('host', vmId); 
+gr.query(); 
+while (gr.next()) { 
+var eniName = gr.name; 
+gs.info('nicnm==' + eniName);
+new global.update_add_comment_server_build().sleep(180000); // sleep for IP record 
+var grip = new GlideRecord("cmdb_ci_nic");
+grip.addQuery('name', eniName);
+grip.query(); 
+if (grip.next()){
+var ipAddress = "Private IP - " + grip.private_ip; 
+var name = current.name; 
+gs.info('pop==' + ipAddress); 
+gs.info('nm==' + name); 
+new global.update_add_comment_server_build().updatePrivateIp(name,ipAddress); // sleep for IP record
+} 
+} // Add your code here
+})(current, previous);
