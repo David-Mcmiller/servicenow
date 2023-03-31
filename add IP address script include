@@ -1,0 +1,31 @@
+var update_add_comment_server_build = Class.create(); 
+update_add_comment_server_build.prototype = Object.extendsObject(AbstractAjaxProcessor, {
+updateadditionalComment: function(sysID,commentdata) {
+// var sysID = this.getParameter('sysparm_sys_id'); 
+// var commentdata = this.getParameter('sysparm_commt_data'); 
+var grItem = new GlideRecord("sc_req_item"); 
+grItem.addQuery("sys_id", sysID); grItem.query(); 
+while (grItem.next()) { 
+grItem.comments = commentdata; 
+grItem.update();
+gs.info("RITM VM and IP id updated ");
+//gs.eventQueue('sn_cmp.server.build.event.additional.com', grItem, grItem.requested_for); 
+} 
+return sysID; 
+}, 
+// sleep: function(time) { 
+gs.sleep(time); 
+}, //sleep function 
+updatePrivateIp: function(nm,ip) {
+var grip = new GlideRecord("sc_req_item");
+//var nm='tar-app-idev';
+//grItem.addQuery("active", 'true'); 
+grip.addEncodedQuery("variables.702df406db5db450e2a9de82ca961996="+ nm ); 
+grip.query(); 
+while (grip.next()) {
+grip.comments = ip; grip.update();
+gs.info("ritm ip==" + ip);
+}
+}, 
+type: 'update_add_comment_server_build' 
+});
