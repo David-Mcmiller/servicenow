@@ -1,0 +1,21 @@
+(function executeRule(current, previous /*null when async*/) {
+var servernm = current.name; 
+var gr = new GlideRecord("sc_item_option"); 
+gr.addQuery('value', servernm);
+gr.query(); 
+while (gr.next()) {
+var res = gr.sys_id;
+gs.addInfoMessage(res); 
+//gs.info('res==' + res);
+var gritem = new GlideRecord("sc_item_option_mtom"); 
+gritem.addQuery('sc_item_option', res);
+gritem.query(); 
+if(gritem.next()){ 
+var res2 = gritem.request_item.sys_id; 
+//gs.info('res2=='+ res2);
+//gs.info('vminst==' + current.vm_inst_id); 
+var vminst = 'VM instance ID - ' + current.vm_inst_id; 
+new global.update_add_comment_server_build().updateadditionalComment(res2, vminst); 
+} 
+} 
+})(current, previous);
